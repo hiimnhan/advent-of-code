@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "advent-of-code"
+version = "0.1.0"
+description = "advent of code"
+authors = ["nhanncv <vinhnhan1999bc@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+numpy = "^1.26.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
