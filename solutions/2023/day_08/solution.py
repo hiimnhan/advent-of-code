@@ -56,10 +56,6 @@ class Solution(TextSolution):
                     break
             return i, k
         
-        def two_cycle(k, steps, nwmap):
-            i, k = one_path_steps_to_starz(k, steps, nwmap)
-            j, k = one_path_steps_to_starz(k, steps, nwmap)
-            return i, j, k
         
         ns = [one_path_steps_to_starz(k, instruction, self.G)[0] for k in self.G.keys() if k.endswith('A')]
         return np.lcm.reduce(ns)
