@@ -92,12 +92,12 @@ class BaseSolution(Generic[I]):
         """
         return self.part_1(), self.part_2()
 
-    def part_1(self):
+    def part_1(self) -> ResultType:
         """
         Returns the answer for part 1 of the puzzle. Only needed if there's not a unified solve method.
         """
 
-    def part_2(self):
+    def part_2(self) -> ResultType:
         """
         Returns the answer for part 2 of the puzzle. Only needed if there's not a unified solve method.
         """
@@ -220,7 +220,7 @@ OutputType = Union[ResultType, tuple[ResultType, ResultType]]
 
 
 def slow(
-    func: Callable[[SolutionClassType], OutputType]
+    func: Callable[[SolutionClassType], OutputType],
 ) -> Callable[[SolutionClassType], OutputType]:
     """
     A decorator for solution methods that blocks their execution (and returns without error)
@@ -253,15 +253,13 @@ def answer(
 ) -> Callable[
     [Callable[[SolutionClassType], tuple[Unpack[Ts]]]],
     Callable[[SolutionClassType], tuple[Unpack[Ts]]],
-]:
-    ...
+]: ...
 
 
 @overload
 def answer(
     expected: R,
-) -> Callable[[Callable[[SolutionClassType], R]], Callable[[SolutionClassType], R]]:
-    ...
+) -> Callable[[Callable[[SolutionClassType], R]], Callable[[SolutionClassType], R]]: ...
 
 
 def answer(
