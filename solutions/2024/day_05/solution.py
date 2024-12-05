@@ -5,6 +5,7 @@
 from ...base import StrSplitSolution, answer
 import sys
 from collections import defaultdict, deque
+from functools import cmp_to_key
 
 sys.setrecursionlimit(10000)
 
@@ -61,7 +62,22 @@ class Solution(StrSplitSolution):
 
     ordering_rules = []
     pages = []
-    graph = Graph()
+    # graph = Graph()
+
+    def check(self, line):
+        for rule in self.ordering_rules:
+            if rule[0] in line and rule[1] in line:
+                if line.index(rule[0]) > line.index(rule[1]):
+                    return False
+        return True
+
+    def cmp_func(self, a, b) -> int:
+        for rule in self.ordering_rules:
+            if rule[0] == a and rule[1] == b:
+                return -1
+            elif rule[0] == b and rule[1] == a:
+                return 1
+        return 0
 
     def init(self):
         for line in self.input:
@@ -70,16 +86,17 @@ class Solution(StrSplitSolution):
                 self.ordering_rules.append((int(first), int(second)))
             elif "," in line:
                 self.pages.append([int(x) for x in line.split(",")])
-        for first, second in self.ordering_rules:
-            self.graph.add_edge(first, second)
-        # print(self.ordering_rules)
 
     # @answer(1234)
     def part_1(self) -> int:
         ans = 0
         self.init()
-        self.graph.print_graph()
-        self.graph.topo_sort()
+        for page in self.pages:
+            if self.check(page):
+                middle_index = len(page) // 2
+                ans += page[middle_index]
+        # self.graph.print_graph()
+        # self.graph.topo_sort()
         # for page in self.pages:
         #     if self.graph.is_subarray_topo(page):
         #         middle_index = len(page) // 2
@@ -88,4 +105,13 @@ class Solution(StrSplitSolution):
 
     # @answer(1234)
     def part_2(self) -> int:
-        pass
+        ans = 0
+        # self.init()
+        for page in self.pages:
+            if not self.check(page):
+                print(page)
+                update = sorted(page, key=cmp_to_key(self.cmp_func))
+                print(update)
+                middle_index = len(update) // 2
+                ans += update[middle_index]
+        return ans
