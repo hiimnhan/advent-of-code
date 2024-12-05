@@ -87,7 +87,7 @@ class Solution(StrSplitSolution):
             elif "," in line:
                 self.pages.append([int(x) for x in line.split(",")])
 
-    # @answer(1234)
+    @answer(4924)
     def part_1(self) -> int:
         ans = 0
         self.init()
@@ -103,7 +103,7 @@ class Solution(StrSplitSolution):
         #         ans += page[middle_index]
         return ans
 
-    # @answer(1234)
+    @answer(6085)
     def part_2(self) -> int:
         ans = 0
         # self.init()
