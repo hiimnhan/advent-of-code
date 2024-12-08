@@ -17,9 +17,9 @@ class Solution(StrSplitSolution):
     _year = 2024
     _day = 8
 
-    def is_in_bounds(self, coord):
+    def is_in_bounds(self, grid, coord):
         x, y = coord
-        return 0 <= x < len(self.input) and 0 <= y < len(self.input[0])
+        return 0 <= x < len(grid) and 0 <= y < len(grid[0])
 
     def linear_equation(self, coord1, coord2):
         x1, y1 = coord1
@@ -37,13 +37,13 @@ class Solution(StrSplitSolution):
         x, y = coord
         return y == m * x + b
 
-    def find_coords_on_line_with_distance(self, coord1, coord2):
+    def find_coords_on_line_with_distance(self, grid, coord1, coord2):
         m, b = self.linear_equation(coord1, coord2)
         distance = self.mahattan_distance(coord1, coord2)
 
         coords = []
-        for r in range(len(self.input)):
-            for c in range(len(self.input[0])):
+        for r in range(len(grid)):
+            for c in range(len(grid[0])):
                 if self.is_on_line(m, b, (r, c)):
                     if (r, c) == coord1 or (r, c) == coord2:
                         continue
@@ -56,25 +56,24 @@ class Solution(StrSplitSolution):
 
     # @answer(1234)
     def part_1(self) -> int:
-        R = len(self.input)
-        C = len(self.input[0])
         map = defaultdict(set)
-        for r in range(R):
-            for c in range(C):
-                if self.input[r][c] == ".":
-                    continue
-                map[self.input[r][c]].add((r, c))
         existed = set()
         grid = make_grid(self.input)
+        R, C = len(grid), len(grid[0])
+        for r in range(R):
+            for c in range(C):
+                if grid[r][c] == ".":
+                    continue
+                map[grid[r][c]].add((r, c))
         print(map)
         for anten in map:
             coords = list(map[anten])
             combs = list(combinations(coords, 2))
             for comb in combs:
-                coords_on_line = self.find_coords_on_line_with_distance(*comb)
+                coords_on_line = self.find_coords_on_line_with_distance(grid, *comb)
                 print(f"coords_on_line: {coords_on_line}, comb: {comb}")
                 for coord in coords_on_line:
-                    if self.is_in_bounds(coord):
+                    if self.is_in_bounds(grid, coord):
                         print(coord)
                         existed.add(coord)
                         if grid[coord[0]][coord[1]] == ".":
