@@ -17,7 +17,6 @@ class Solution(IntSolution):
 
     def generate_blocks(self, input):
         blocks = []
-        free_spots = []
         file_starts = []
         is_prev_a_file = True
         i = 0
@@ -30,31 +29,37 @@ class Solution(IntSolution):
             else:
                 for _ in range(int(x)):
                     idx = len(blocks)
-                    free_spots.append(idx)
                     blocks.append(None)
             is_prev_a_file = not is_prev_a_file
-        return blocks, free_spots, file_starts
+        return blocks, file_starts
 
-    # @answer(1234)
+    @answer(6334655979668)
     def part_1(self) -> int:
         ans = 0
-        blocks, free_spots, _ = self.generate_blocks(str(self.input))
-        for pos in free_spots:
-            if pos > len(blocks):
-                break
-            val = blocks.pop()
-            blocks[pos] = val
-            while blocks[-1] is None:
-                blocks.pop()
+        blocks, _ = self.generate_blocks(str(self.input))
+
+        i, j = 0, len(blocks) - 1
+
+        while i < j:
+            if blocks[i] is not None:
+                i += 1
+                continue
+            if blocks[j] is None:
+                j -= 1
+                continue
+            blocks[i], blocks[j] = blocks[j], blocks[i]
+            i += 1
+            j -= 1
 
         for pos, v in enumerate(blocks):
-            ans += pos * v
+            if v is not None:
+                ans += pos * v
         return ans
 
-    # @answer(1234)
+    @answer(6349492251099)
     def part_2(self) -> int:
         ans = 0
-        blocks, _, file_starts = self.generate_blocks(str(self.input))
+        blocks, file_starts = self.generate_blocks(str(self.input))
 
         def find_place(length):
             for idx, v in enumerate(blocks):
