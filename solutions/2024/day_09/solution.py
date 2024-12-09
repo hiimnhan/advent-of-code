@@ -28,7 +28,6 @@ class Solution(IntSolution):
                 i += 1
             else:
                 for _ in range(int(x)):
-                    idx = len(blocks)
                     blocks.append(None)
             is_prev_a_file = not is_prev_a_file
         return blocks, file_starts
