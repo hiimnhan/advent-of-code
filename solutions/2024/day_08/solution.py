@@ -4,7 +4,7 @@
 
 from itertools import combinations
 
-from solutions.utils.util import make_grid, print_grid
+from solutions.utils.grid import make_grid
 
 from ...base import StrSplitSolution, answer
 from collections import defaultdict
@@ -78,9 +78,9 @@ class Solution(StrSplitSolution):
                         existed.add(coord)
                         if grid[coord[0]][coord[1]] == ".":
                             grid[coord[0]][coord[1]] = "#"
-        print_grid(grid)
         return len(existed)
 
     # @answer(1234)
     def part_2(self) -> int:
-        pass
+        ans = 0
+        return ans

@@ -9,5 +9,12 @@ def make_grid(input: list[str], to_int=False):
         return [[int(cell) for cell in row] for row in input]
     return [list(row) for row in input]
 
+
 def is_out_of_bounds(grid, r, c):
     return r < 0 or c < 0 or r >= len(grid) or c >= len(grid[0])
+
+
+UP = (-1, 0)
+DOWN = (1, 0)
+LEFT = (0, -1)
+RIGHT = (0, 1)
