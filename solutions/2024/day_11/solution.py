@@ -3,6 +3,7 @@
 # puzzle prompt: https://adventofcode.com/2024/day/11
 
 from copy import deepcopy
+from functools import cache
 from ...base import IntSplitSolution, answer
 import sys
 
@@ -15,21 +16,20 @@ class Solution(IntSplitSolution):
 
     separator = " "
 
-    def blink(self, input):
-        new_line = []
+    @cache
+    def blink(self, num) -> tuple[int, ...]:
+        if num == 0:
+            return (1,)
+        if len(str(num)) % 2 == 0:
+            return tuple(self.split_number_evenly(num))
+        else:
+            return (num * 2024,)
 
-        for n in input:
-            if n == 0:
-                new_line.append(1)
-                continue
-            elif len(str(n)) % 2 == 0:
-                left, right = self.split_number_evenly(n)
-                new_line.append(left)
-                new_line.append(right)
-                continue
-            else:
-                new_line.append(n * 2024)
-        return new_line
+    @cache
+    def process(self, nums: tuple[int, ...], times=25) -> int:
+        if times == 0:
+            return len(nums)
+        return sum(self.process(self.blink(num), times - 1) for num in nums)
 
     def split_number_evenly(self, number: int, parts=2) -> list[int]:
         num_str = str(number)
@@ -44,13 +44,11 @@ class Solution(IntSplitSolution):
     # @answer(1234)
     def part_1(self) -> int:
         ans = 0
-        input = deepcopy(self.input)
-        for _ in range(25):
-            input = self.blink(input)
-            print(input)
-        return len(input)
+        input = tuple(self.input)
+        return self.process(input)
 
     # @answer(1234)
     def part_2(self) -> int:
         ans = 0
-        return ans
+        input = tuple(self.input)
+        return self.process(input, 75)
