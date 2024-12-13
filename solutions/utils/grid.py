@@ -54,31 +54,34 @@ def connected_regions(
             if visited[r][c]:
                 continue
             type = grid[r][c]
-            print("----")
-            print(type)
             plots, perimeter = dfs(r, c, type)
             if plots:
-                corners = 0
-                for x, y in plots:
-                    top = next_coord(x, y, *UP)
-                    left = next_coord(x, y, *LEFT)
-                    right = next_coord(x, y, *RIGHT)
-                    bottom = next_coord(x, y, *DOWN)
-
-                    tr = top not in plots and right not in plots
-                    tl = top not in plots and left not in plots
-                    br = bottom not in plots and right not in plots
-                    bl = bottom not in plots and left not in plots
-
-                    print(
-                        f"x: {x}, y: {y}, corners: {tl, tr, bl, br} -> {tl + tr + bl + br}"
-                    )
-
-                    corners += tl + tr + bl + br
+                sides = {}
+                for x, y, dr, dc in perimeter:
+                    if (dr, dc) in {UP, DOWN}:
+                        key = (x, (dr, dc))
+                        if key not in sides:
+                            sides[key] = []
+                        sides[key].append(y)
+                    elif (dr, dc) in {LEFT, RIGHT}:
+                        key = (y, (dr, dc))
+                        if key not in sides:
+                            sides[key] = []
+                        sides[key].append(x)
+                total_sides = 0
+                for v in sides.values():
+                    total_sides += 1
+                    v.sort()
+                    i = v.pop()
+                    while v:
+                        n = v.pop()
+                        if i - n > 1:
+                            total_sides += 1
+                        i = n
 
                 if type not in regions:
                     regions[type] = []
-                regions[type].append((plots, len(perimeter), corners))
+                regions[type].append((plots, len(perimeter), total_sides))
     return regions
 
 
