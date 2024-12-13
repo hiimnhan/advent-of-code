@@ -48,29 +48,36 @@ class Solution(StrSplitSolution):
             machines.append((a_x, a_y, b_x, b_y, p_x, p_y))
         return machines
 
-    def process(self, machines, max_presses) -> int:
+    def process(self, machines) -> int:
         total = 0
 
-        for i, machines in enumerate(machines):
-            a_x, a_y, b_x, b_y, p_x, p_y = machines
-            min_cost = float("inf")
-            for x in range(0, max_presses + 1):
-                for y in range(0, max_presses + 1):
-                    result_x = a_x * x + b_x * y
-                    result_y = a_y * x + b_y * y
+        # solve linear equations
+        # a*ax + b*bx = px
+        # a*ay + b*by = py
 
-                    if result_x == p_x and result_y == p_y:
-                        cost = 3 * x + y
-                        min_cost = min(min_cost, cost)
-            if min_cost != float("inf"):
-                total += min_cost
+        for machine in machines:
+            ax, ay, bx, by, px, py = machine
+            if by == 0 or ax == ay * bx / by:
+                return total
+            a = (px - py * bx / by) / (ax - ay * bx / by)
+            b = (py - a * ay) / by
+            ra, rb = round(a), round(b)
+
+            if (
+                (ra * ax + rb * bx == px)
+                and (ra * ay + rb * by == py)
+                and ra >= 0
+                and rb >= 0
+            ):
+                total += 3 * a + b
+
         return int(total)
 
     # @answer(1234)
     def part_1(self) -> int:
         ans = 0
         machines = self.parse(self.input)
-        ans += self.process(machines, 100)
+        ans += self.process(machines)
         return ans
 
     # @answer(1234)
@@ -78,4 +85,5 @@ class Solution(StrSplitSolution):
         RATE = 10**13
         ans = 0
         machines = self.parse(self.input, RATE)
+        ans += self.process(machines)
         return ans
