@@ -1,4 +1,3 @@
-from collections import defaultdict
 
 
 def print_grid(grid: list[list[str]]):
@@ -85,7 +84,17 @@ def connected_regions(
     return regions
 
 
+def next_directions_by_degree(d, deg=90) -> tuple[int, int]:
+    if deg == 90:
+        return (d + 1) % 4, (d + 3) % 4
+    if deg == 180:
+        return (d + 2) % 4, (d + 2) % 4
+    return (d + 1) % 4, (d + 3) % 4
+
+
 UP = (-1, 0)
 DOWN = (1, 0)
 LEFT = (0, -1)
 RIGHT = (0, 1)
+
+DIRECTIONS = [UP, RIGHT, DOWN, LEFT]
