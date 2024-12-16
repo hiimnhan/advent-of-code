@@ -2,10 +2,11 @@
 
 # puzzle prompt: https://adventofcode.com/2024/day/5
 
-from ...base import StrSplitSolution, answer
 import sys
 from collections import defaultdict, deque
 from functools import cmp_to_key
+
+from ...base import StrSplitSolution, answer
 
 sys.setrecursionlimit(10000)
 

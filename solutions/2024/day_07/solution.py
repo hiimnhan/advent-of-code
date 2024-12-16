@@ -2,9 +2,10 @@
 
 # puzzle prompt: https://adventofcode.com/2024/day/7
 
-from ...base import StrSplitSolution, answer
-from collections import defaultdict
 import sys
+from collections import defaultdict
+
+from ...base import StrSplitSolution, answer
 
 sys.setrecursionlimit(10000)
 

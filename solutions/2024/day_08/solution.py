@@ -2,13 +2,13 @@
 
 # puzzle prompt: https://adventofcode.com/2024/day/8
 
+import sys
+from collections import defaultdict
 from itertools import combinations
 
 from solutions.utils.grid import make_grid
 
-from ...base import StrSplitSolution, answer
-from collections import defaultdict
-import sys
+from ...base import StrSplitSolution
 
 sys.setrecursionlimit(10000)
 

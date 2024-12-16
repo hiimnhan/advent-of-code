@@ -2,7 +2,6 @@
 
 # puzzle prompt: https://adventofcode.com/2023/day/18
 
-import re
 
 from ...base import StrSplitSolution, answer
 

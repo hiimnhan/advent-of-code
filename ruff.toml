@@ -1,12 +1,14 @@
-select = ["E", "F", "I001"]
+select = ["E", "F", "I001", "I"]
 
 
-ignore = [
+lint.ignore = [
   "E501", # skip enforcing line length
   "E741", # ignore short variable names
 ]
 
-unfixable = [
-  "F401", # don't remove unused imports
-  "F841", # don't remove unused variables
+lint.fixable = [
+  "F401",
+  "F841", 
+
 ]
+

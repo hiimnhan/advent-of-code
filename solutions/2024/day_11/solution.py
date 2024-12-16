@@ -2,10 +2,10 @@
 
 # puzzle prompt: https://adventofcode.com/2024/day/11
 
-from copy import deepcopy
-from functools import cache
-from ...base import IntSplitSolution, answer
 import sys
+from functools import cache
+
+from ...base import IntSplitSolution
 
 sys.setrecursionlimit(10000)
 

@@ -2,9 +2,8 @@
 
 # puzzle prompt: https://adventofcode.com/2023/day/7
 
-from collections import Counter, defaultdict
 
-from ...base import StrSplitSolution, answer
+from ...base import StrSplitSolution
 
 
 class Solution(StrSplitSolution):

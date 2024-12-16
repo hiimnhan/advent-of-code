@@ -2,17 +2,18 @@
 
 # puzzle prompt: https://adventofcode.com/2024/day/15
 
-from ...base import StrSplitSolution, answer
 import sys
+
 from solutions.utils.grid import (
     DOWN,
     LEFT,
     RIGHT,
     UP,
-    is_out_of_bounds,
     make_grid,
     next_coord,
 )
+
+from ...base import StrSplitSolution
 
 sys.setrecursionlimit(10000)
 

@@ -2,10 +2,12 @@
 
 # puzzle prompt: https://adventofcode.com/2024/day/10
 
-from collections import deque
-from solutions.utils.grid import is_out_of_bounds, make_grid
-from ...base import StrSplitSolution, answer
 import sys
+from collections import deque
+
+from solutions.utils.grid import is_out_of_bounds, make_grid
+
+from ...base import StrSplitSolution, answer
 
 sys.setrecursionlimit(10000)
 

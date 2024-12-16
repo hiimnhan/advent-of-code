@@ -2,9 +2,10 @@
 
 # puzzle prompt: https://adventofcode.com/2024/day/3
 
-from ...base import TextSolution, answer
-import sys
 import re
+import sys
+
+from ...base import TextSolution, answer
 
 sys.setrecursionlimit(10000)
 

@@ -2,7 +2,7 @@
 
 # puzzle prompt: https://adventofcode.com/2023/day/14
 
-from ...base import StrSplitSolution, TextSolution, answer
+from ...base import StrSplitSolution, answer
 
 
 class Solution(StrSplitSolution):

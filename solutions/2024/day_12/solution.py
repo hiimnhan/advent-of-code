@@ -2,9 +2,11 @@
 
 # puzzle prompt: https://adventofcode.com/2024/day/12
 
-from solutions.utils.grid import connected_regions, make_grid
-from ...base import StrSplitSolution, answer
 import sys
+
+from solutions.utils.grid import connected_regions, make_grid
+
+from ...base import StrSplitSolution
 
 sys.setrecursionlimit(10000)
 

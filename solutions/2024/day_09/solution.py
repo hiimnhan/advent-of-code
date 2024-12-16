@@ -2,8 +2,9 @@
 
 # puzzle prompt: https://adventofcode.com/2024/day/9
 
-from ...base import IntSolution, answer
 import sys
+
+from ...base import IntSolution, answer
 
 sys.setrecursionlimit(10000)
 sys.set_int_max_str_digits(0)

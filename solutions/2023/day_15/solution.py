@@ -2,7 +2,7 @@
 
 # puzzle prompt: https://adventofcode.com/2023/day/15
 
-from ...base import TextSolution, answer
+from ...base import TextSolution
 
 
 class Solution(TextSolution):

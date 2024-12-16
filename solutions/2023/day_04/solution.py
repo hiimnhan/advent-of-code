@@ -5,7 +5,7 @@
 
 import numpy as np
 
-from ...base import StrSplitSolution, TextSolution, answer
+from ...base import StrSplitSolution, answer
 
 
 class Solution(StrSplitSolution):

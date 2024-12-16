@@ -3,7 +3,7 @@
 # puzzle prompt: https://adventofcode.com/2023/day/5
 
 
-from ...base import StrSplitSolution, TextSolution, answer
+from ...base import StrSplitSolution
 
 
 class Solution(StrSplitSolution):
