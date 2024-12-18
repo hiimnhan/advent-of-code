@@ -1,3 +1,4 @@
+import heapq
 
 
 def print_grid(grid: list[list[str]]):
@@ -14,6 +15,10 @@ def make_grid(input: list[str], to_int=False):
 
 def is_out_of_bounds(grid, r, c):
     return r < 0 or c < 0 or r >= len(grid) or c >= len(grid[0])
+
+
+def is_out_of_bounds_w_h(w, h, r, c):
+    return r < 0 or c < 0 or r >= h or c >= w
 
 
 def next_coord(r, c, dr, dc):
@@ -90,6 +95,55 @@ def next_directions_by_degree(d, deg=90) -> tuple[int, int]:
     if deg == 180:
         return (d + 2) % 4, (d + 2) % 4
     return (d + 1) % 4, (d + 3) % 4
+
+
+def make_grid_with_obstacles(w, h, obstacles):
+    grid = []
+    for r in range(h):
+        row = []
+        for c in range(w):
+            row.append("#" if (r, c) in obstacles else ".")
+        grid.append(row)
+    return grid
+
+
+def bfs(w, h, start, end, obstacles):
+    visited = set()
+    queue = [(start, 0)]
+    while queue:
+        (r, c), d = queue.pop(0)
+        print(r, c, d)
+        if (r, c) in visited or (r, c) in obstacles or is_out_of_bounds_w_h(w, h, r, c):
+            continue
+        visited.add((r, c))
+        if (r, c) == end:
+            return d
+        for dr, dc in DIRECTIONS:
+            nr, nc = r + dr, c + dc
+            queue.append(((nr, nc), d + 1))
+    return -1
+
+
+def dijkstra(grid, start, end):
+    R, C = len(grid), len(grid[0])
+    visited = [[False] * C for _ in range(R)]
+    distances = [[float("inf")] * C for _ in range(R)]
+    distances[start[0]][start[1]] = 0
+    heap = [(0, start)]
+    while heap:
+        d, (r, c) = heapq.heappop(heap)
+        if visited[r][c]:
+            continue
+        visited[r][c] = True
+        for dr, dc in DIRECTIONS:
+            nr, nc = r + dr, c + dc
+            if is_out_of_bounds(grid, nr, nc) or visited[nr][nc]:
+                continue
+            new_d = d + 1
+            if new_d < distances[nr][nc]:
+                distances[nr][nc] = new_d
+                heapq.heappush(heap, (new_d, (nr, nc)))
+    return distances[end[0]][end[1]]
 
 
 UP = (-1, 0)
