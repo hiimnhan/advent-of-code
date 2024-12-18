@@ -25,6 +25,10 @@ def next_coord(r, c, dr, dc):
     return r + dr, c + dc
 
 
+def get_adjacent(r, c):
+    return [(r + dr, c + dc) for dr, dc in DIRECTIONS]
+
+
 def connected_regions(
     grid,
 ) -> dict[str, list[tuple[set[tuple[int, int]], int, int]]]:
