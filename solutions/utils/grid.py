@@ -25,7 +25,15 @@ def next_coord(r, c, dr, dc):
     return r + dr, c + dc
 
 
-def get_adjacent(r, c):
+def get_valid_adj(w, h, r, c):
+    return [
+        (r + dr, c + dc)
+        for dr, dc in DIRECTIONS
+        if not is_out_of_bounds_w_h(w, h, r + dr, c + dc)
+    ]
+
+
+def get_adj(r, c):
     return [(r + dr, c + dc) for dr, dc in DIRECTIONS]
 
 
