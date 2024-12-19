@@ -1,4 +1,5 @@
 import heapq
+from math import inf
 
 
 def print_grid(grid: list[list[str]]):
@@ -119,27 +120,11 @@ def make_grid_with_obstacles(w, h, obstacles):
     return grid
 
 
-def bfs(w, h, start, end, obstacles):
-    visited = set()
-    queue = [(start, 0)]
-    while queue:
-        (r, c), d = queue.pop(0)
-        print(r, c, d)
-        if (r, c) in visited or (r, c) in obstacles or is_out_of_bounds_w_h(w, h, r, c):
-            continue
-        visited.add((r, c))
-        if (r, c) == end:
-            return d
-        for dr, dc in DIRECTIONS:
-            nr, nc = r + dr, c + dc
-            queue.append(((nr, nc), d + 1))
-    return -1
-
-
-def dijkstra(grid, start, end):
-    R, C = len(grid), len(grid[0])
-    visited = [[False] * C for _ in range(R)]
-    distances = [[float("inf")] * C for _ in range(R)]
+def dijkstra(w, h, start, end, obstacles=set()):
+    w += 1
+    h += 1
+    visited = [[False] * h for _ in range(w)]
+    distances = [[inf] * h for _ in range(w)]
     distances[start[0]][start[1]] = 0
     heap = [(0, start)]
     while heap:
@@ -149,7 +134,11 @@ def dijkstra(grid, start, end):
         visited[r][c] = True
         for dr, dc in DIRECTIONS:
             nr, nc = r + dr, c + dc
-            if is_out_of_bounds(grid, nr, nc) or visited[nr][nc]:
+            if (
+                is_out_of_bounds_w_h(w, h, nr, nc)
+                or visited[nr][nc]
+                or (nr, nc) in obstacles
+            ):
                 continue
             new_d = d + 1
             if new_d < distances[nr][nc]:
