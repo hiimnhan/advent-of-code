@@ -2,9 +2,9 @@ import heapq
 from math import inf
 
 
-def print_grid(grid: list[list[str]]):
+def print_grid(grid: list[list[str]] | list[list[int]]):
     for row in grid:
-        print("".join(row))
+        print("".join(str(cell) for cell in row))
     print()
 
 
@@ -120,31 +120,90 @@ def make_grid_with_obstacles(w, h, obstacles):
     return grid
 
 
-def dijkstra(w, h, start, end, obstacles=set()):
-    w += 1
-    h += 1
-    visited = [[False] * h for _ in range(w)]
-    distances = [[inf] * h for _ in range(w)]
-    distances[start[0]][start[1]] = 0
-    heap = [(0, start)]
-    while heap:
-        d, (r, c) = heapq.heappop(heap)
-        if visited[r][c]:
+def dijkstra(w, h, start, end, obstacles=set(), include_end=False):
+    pq = []
+    heapq.heappush(pq, (0, start))
+
+    visited = set()
+
+    while pq:
+        current_distance, current_node = heapq.heappop(pq)
+
+        if current_node == end:
+            return current_distance - include_end
+
+        if current_node in visited:
             continue
-        visited[r][c] = True
-        for dr, dc in DIRECTIONS:
-            nr, nc = r + dr, c + dc
+
+        visited.add(current_node)
+
+        x, y = current_node
+        for dx, dy in DIRECTIONS:
+            neighbor = (x + dx, y + dy)
+
             if (
-                is_out_of_bounds_w_h(w, h, nr, nc)
-                or visited[nr][nc]
-                or (nr, nc) in obstacles
+                0 <= neighbor[0] < w
+                and 0 <= neighbor[1] < h
+                and neighbor not in obstacles
             ):
-                continue
-            new_d = d + 1
-            if new_d < distances[nr][nc]:
-                distances[nr][nc] = new_d
-                heapq.heappush(heap, (new_d, (nr, nc)))
-    return distances[end[0]][end[1]]
+                if neighbor not in visited:
+                    heapq.heappush(pq, (current_distance + 1, neighbor))
+
+    return inf
+
+
+def dijkstra_and_path(w, h, start, end, obstacles=set(), include_end=False):
+    pq = []
+    heapq.heappush(pq, (0, start, [start]))
+
+    visited = set()
+
+    while pq:
+        current_distance, current_node, path = heapq.heappop(pq)
+
+        if current_node == end:
+            if include_end:
+                return current_distance, path
+            else:
+                return current_distance - 1, path[:-1]
+
+        if current_node in visited:
+            continue
+
+        visited.add(current_node)
+
+        x, y = current_node
+        for dx, dy in DIRECTIONS:
+            neighbor = (x + dx, y + dy)
+
+            if (
+                0 <= neighbor[0] < w
+                and 0 <= neighbor[1] < h
+                and neighbor not in obstacles
+            ):
+                if neighbor not in visited:
+                    heapq.heappush(
+                        pq, (current_distance + 1, neighbor, path + [neighbor])
+                    )
+
+    return inf, []
+
+
+def find_turning_points(path):
+    if len(path) < 3:
+        return []
+    turning_points = []
+    for i in range(1, len(path) - 1):
+        prev = path[i - 1]
+        curr = path[i]
+        next = path[i + 1]
+        # Check if direction changes
+        if (curr[0] - prev[0], curr[1] - prev[1]) != (
+            next[0] - curr[0],
+            next[1] - curr[1],
+        ):
+            turning_points.append(curr)
+    return turning_points
 
 
 UP = (-1, 0)
