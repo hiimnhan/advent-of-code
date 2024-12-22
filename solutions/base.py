@@ -16,9 +16,8 @@ from typing import (
     Callable,
     Generic,
     TypeVar,
-    TypeVarTuple,
     Union,
-    Unpack,
+    Tuple,
     cast,
     final,
     overload,
@@ -244,15 +243,15 @@ def slow(
 # these types ensure the return type of the function matches `@answer`
 # see: https://github.com/microsoft/pyright/discussions/4317#discussioncomment-4386187
 R = TypeVar("R")  # return type generic
-Ts = TypeVarTuple("Ts")  # tuple items generic
+T = TypeVar("T")  # tuple items generic
 
 
 @overload
 def answer(
-    expected: tuple[Unpack[Ts]],
+    expected: tuple[Tuple[T, ...]],
 ) -> Callable[
-    [Callable[[SolutionClassType], tuple[Unpack[Ts]]]],
-    Callable[[SolutionClassType], tuple[Unpack[Ts]]],
+    [Callable[[SolutionClassType], tuple[Tuple[T, ...]]]],
+    Callable[[SolutionClassType], tuple[Tuple[T, ...]]],
 ]: ...
 
 
