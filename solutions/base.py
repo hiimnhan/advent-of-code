@@ -22,6 +22,7 @@ from typing import (
     final,
     overload,
 )
+import pdb, traceback, sys
 
 
 class AoCException(Exception):
@@ -89,7 +90,13 @@ class BaseSolution(Generic[I]):
         Returns a 2-tuple with the answers.
             Used instead of `part_1/2` if one set of calculations yields both answers.
         """
-        return self.part_1(), self.part_2()
+        try:
+            return self.part_1(), self.part_2()
+        except Exception:
+            type, value, tb = sys.exc_info()
+            traceback.print_exc()
+            pdb.post_mortem(tb)
+        return (0, 0)
 
     def part_1(self) -> ResultType:
         """
@@ -172,12 +179,6 @@ class BaseSolution(Generic[I]):
         """
         if not self.is_debugging:
             return
-
-        for o in objects:
-            pprint(o)
-
-        if trailing_newline:
-            print()
 
 
 class TextSolution(BaseSolution[str]):
