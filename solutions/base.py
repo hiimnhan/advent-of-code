@@ -93,7 +93,7 @@ class BaseSolution(Generic[I]):
         try:
             return self.part_1(), self.part_2()
         except Exception:
-            type, value, tb = sys.exc_info()
+            _, _, tb = sys.exc_info()
             traceback.print_exc()
             pdb.post_mortem(tb)
         return (0, 0)
