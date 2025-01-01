@@ -14,3 +14,11 @@ def common_chars(strings):
         results.extend([char] * count)
 
     return results
+
+
+def is_contain(a, b, c, d):
+    return a <= c and b >= d
+
+
+def is_overlap(a, b, c, d):
+    return a <= c and b >= c or a <= d and b >= d
