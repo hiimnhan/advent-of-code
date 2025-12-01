@@ -33,6 +33,15 @@ PARSER.add_argument(
     help="run using test_input.txt instead of the day's actual input.",
 )
 PARSER.add_argument(
+    "-p",
+    "--part",
+    type=int,
+    default=None,
+    choices=[1, 2],
+    help="only run the specified part of the day's solution",
+)
+
+PARSER.add_argument(
     "--debug", action="store_true", help="prints normally-hidden debugging statements"
 )
 PARSER.add_argument(
@@ -78,7 +87,7 @@ def main(
         )
 
         start = perf_counter_ns()
-        solution.run_and_print_solutions()
+        solution.run_and_print_solutions(specific_part=ARGS.part)
         stop = perf_counter_ns()
     except AoCException as e:
         print("ERR:", e)

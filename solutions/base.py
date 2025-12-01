@@ -156,19 +156,27 @@ class BaseSolution(Generic[I]):
         raise ValueError(f"Unrecognized input_type: {self.input_type}")
 
     @final
-    def run_and_print_solutions(self):
-        result = self.solve()
-        print(f"= Solutions for {self.year} Day {self.day}")
-        try:
-            if result:
-                p1, p2 = result
-                print_answer(1, p1)
-                print_answer(2, p2)
-            print()
-        except TypeError as exc:
-            raise ValueError(
-                "unable to unpack 2-tuple from `solve`, got", result
-            ) from exc
+    def run_and_print_solutions(self, specific_part: int | None = None):
+        if not specific_part:
+            result = self.solve()
+            print(f"= Solutions for {self.year} Day {self.day}")
+            try:
+                if result:
+                    p1, p2 = result
+                    print_answer(1, p1)
+                    print_answer(2, p2)
+                print()
+            except TypeError as exc:
+                raise ValueError(
+                    "unable to unpack 2-tuple from `solve`, got", result
+                ) from exc
+        else:
+            if specific_part == 1:
+                ans = self.part_1()
+                print_answer(1, ans)
+            elif specific_part == 2:
+                ans = self.part_2()
+                print_answer(2, ans)
 
     @final
     def debug(self, *objects, trailing_newline=False):
